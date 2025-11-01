@@ -1,0 +1,12 @@
+# Python cache
+__pycache__/
+
+# VS Code settings
+.vscode/
+
+# Virtual environment folder
+venv/
+.venv/
+
+# Local environment variables (for secrets)
+.env

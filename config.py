@@ -1,0 +1,28 @@
+# --- Game Window Settings ---
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 1000
+FPS = 60
+TITLE = "My Dungeon Game"
+
+# --- Colors (RGB) ---
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+PLAYER_COLOR = (255, 0, 0)
+PLAYER_DASH_COLOR = (255, 150, 0)
+PLAYER_SLAM_COLOR = (0, 255, 0)
+
+# --- Player Physics ---
+GRAVITY = 0.8
+PLAYER_JUMP_POWER = -18
+PLAYER_SPEED = 7
+
+# --- Player Dash Settings ---
+MAX_DASH_CHARGES = 3
+DASH_SPEED = 20
+DASH_DURATION = 10
+DASH_COOLDOWN = 12
+
+# --- Slam-Jump Constants ---
+SLAM_JUMP_BONUS = 1.5
+MAX_JUMP_MULTIPLIER = 2
+SLAM_JUMP_WINDOW = 10
