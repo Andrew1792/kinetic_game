@@ -1,0 +1,14 @@
+{
+  "background_color": "#1A1A2E",
+  "player_start": {
+    "x": 400,
+    "y": 550
+  },
+
+  "platforms": [
+    { "x": 0, "y": 580, "width": 800, "height": 20 },
+    { "x": 300, "y": 480, "width": 100, "height": 20 }
+  ],
+  
+  "enemies": []
+}

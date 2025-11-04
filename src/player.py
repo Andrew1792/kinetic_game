@@ -32,23 +32,47 @@ class Player(pygame.sprite.Sprite):
         # --- Slam-Jump State ---
         self.current_jump_multiplier = 1.0
         self.slam_jump_timer = 0
+
+        # -- slide --
+        self.is_sliding = False
+        self.apply_slide_friction = False
         
         # --- Logic Handler ---
         self.movement_handler = PlayerMovementHandler()
+
+        
+    def reset(self, start_x, start_y):
+
+        # Reset position
+        self.rect.midbottom = (start_x, start_y)
+        
+        # Reset physics
+        self.velocity = pygame.Vector2(0, 0)
+        self.on_ground = False # Important!
+        
+        # Reset state
+        self.is_dashing = False
+        self.is_slamming = False
+        self.is_sliding = False
+        self.image = self.original_image # Reset visual
+        
+        # Reset resources
+        self.dash_charges = self.max_dash_charges
+        self.current_jump_multiplier = 1.0
+        self.slam_jump_timer = 0
+        self.dash_timer = 0
 
 
     def handle_event(self, event):
         # Handles one-time button presses (KEYDOWN)
         if event.type == pygame.KEYDOWN:
-            # --- JUMP ---
+
             if event.key == pygame.K_w:
                 self.jump()
             
-            # --- DASH ---
             if event.key == pygame.K_LSHIFT:
                 self.dash()
                 
-            # --- SLAM ---
             if event.key == pygame.K_s:
                 self.slam()
 
@@ -63,12 +87,15 @@ class Player(pygame.sprite.Sprite):
 
         # --- Check for slam bonus ---
         if self.slam_jump_timer > 0:
-            self.current_jump_multiplier *= SLAM_JUMP_BONUS
-            self.current_jump_multiplier = min(self.current_jump_multiplier, MAX_JUMP_MULTIPLIER)
-            self.slam_jump_timer = 0
+          self.current_jump_multiplier *= SLAM_JUMP_BONUS
+          self.current_jump_multiplier = min(self.current_jump_multiplier, MAX_JUMP_MULTIPLIER)
+          self.slam_jump_timer = 0
 
-        # --- Apply Slam Bonus ---
-        final_jump_power *= self.current_jump_multiplier
+          # --- Apply Slam Bonus ---
+          final_jump_power *= self.current_jump_multiplier
+          
+        else:
+            self.current_jump_multiplier = 1.0
 
         # --- Execute Jump ---
         self.velocity.y = final_jump_power
@@ -89,7 +116,7 @@ class Player(pygame.sprite.Sprite):
         
         
     def dash(self):
-        if self.on_ground or self.dash_charges <= 0 or self.is_dashing or self.dash_cooldown_timer > 0:
+        if self.dash_charges <= 0 or self.is_dashing:
             return
         
         self.is_dashing = True
@@ -113,5 +140,5 @@ class Player(pygame.sprite.Sprite):
         self.image.fill(PLAYER_DASH_COLOR)
 
 
-    def update(self):
-        self.movement_handler.update_state(self)
+    def update(self, platforms, enemies):
+      self.movement_handler.update_state(self, platforms, enemies)
